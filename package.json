@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "flatpickr": "^4.6.13",
+    "git": "^0.1.5",
+    "leaflet": "^1.9.4",
+    "mssql": "^11.0.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.12.0",
+    "node.js": "^0.0.1-security"
+  }
+}
