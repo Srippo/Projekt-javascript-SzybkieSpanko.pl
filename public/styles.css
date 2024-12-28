@@ -33,7 +33,7 @@ button {
 
 /* navbar */
 
-nav h1, h3 {
+nav h1, nav h3 {
     color: white;
 }
 
@@ -293,7 +293,7 @@ nav h1, h3 {
 
 .listing-img-container {
     width: 250px;
-    height: 250px;
+    height: 200px;
     display: flex;
     justify-items: left;
 }
@@ -319,10 +319,57 @@ nav h1, h3 {
     padding-left: 15px;
 }
 
+.data-container {
+    margin-right: 100px;
+}
+
+.review-count-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.review-count-container span:last-child {
+    font-size: 12px;
+    color: gray;
+}
+
+.rating-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: fit-content;
+}
+
+.rating {
+    background-color: #003580;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.rating-description {
+    font-weight: 700;
+}
+
+
 .location-details-container {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    line-height: 1.5;
+}
+
+.listing-details-top {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+
+.listing-details-top-left {
+    display: flex;
+    flex-direction: column;
 }
 
 .listing-details-top i {
@@ -395,10 +442,13 @@ nav h1, h3 {
 .listing-details-bottom {
     display: flex;
     flex-direction: row;
+    padding-left: 10px;
+    border-left: 2px solid lightgray;
 }
 
 .listing-details-bottom-left {
     width: 60%;
+    margin-right: 100px;
 }
 
 .listing-details-bottom-left p {
@@ -410,11 +460,33 @@ nav h1, h3 {
 .listing-details-bottom-left h5 {
     margin-top: 10px;
     margin-bottom: 0;
+    font-size: 12px;
 }
 
-.dot::before {
-    content: '•';
-    font-size: 12px;
-    color: black;
-    margin: 0 2px 0 2px;
+.pricing-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 200px;
+}
+
+.pricing-container h5, .pricing-container h3 {
+    padding: 0;
+    margin: 0;
+}
+
+.pricing-container p {
+    padding: 0;
+    margin-bottom: 10px;
+    color: gray;
+    font-size: 10px;
+}
+
+.availability-button {
+    background-color: #0085CA;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    height: 5vh;
+    padding: 10px;
 }
