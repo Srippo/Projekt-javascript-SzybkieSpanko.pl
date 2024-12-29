@@ -114,6 +114,78 @@ app.get('/offer-details', async (req, res) => {
     }
 });
 
+app.get('/reservation-details', async (req, res) => {
+    const { id } = req.query;
+
+    if (!id) {
+        return res.status(400).send('Brakuje identyfikatora oferty.');
+    }
+
+    try {
+        const connection = mysql.createConnection(dbConfig);
+        const [rows] = await connection.promise().query('SELECT object_name, imageUrl, price FROM Obiekty WHERE id = ?', [id]);
+        connection.end();
+
+        if (rows.length === 0) {
+            return res.status(404).send('Nie znaleziono oferty.');
+        }
+
+        res.json(rows[0]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Błąd połączenia z bazą danych.');
+    }
+});
+
+
+
+app.post('/rezerwacja', express.json(), async (req, res) => {
+    const {
+        imie, nazwisko, email, telefon,
+        miasto, data_zameldowania, data_wymeldowania,
+        liczba_doroslych, liczba_dzieci
+    } = req.body;
+
+    try {
+        const connection = mysql.createConnection(dbConfig);
+        const query = `
+            INSERT INTO Rezerwacje
+            (imie, nazwisko, email, telefon, miasto, data_zameldowania, data_wymeldowania, liczba_doroslych, liczba_dzieci)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `;
+        await connection.promise().query(query, [
+            imie, nazwisko, email, telefon,
+            miasto, data_zameldowania, data_wymeldowania,
+            liczba_doroslych, liczba_dzieci
+        ]);
+        connection.end();
+
+        res.status(200).send('Rezerwacja zapisana');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Błąd serwera');
+    }
+});
+
+app.get('/obiekt/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const connection = mysql.createConnection(dbConfig);
+        const [rows] = await connection.promise().query('SELECT * FROM Obiekty WHERE id = ?', [id]);
+        connection.end();
+
+        if (rows.length === 0) {
+            return res.status(404).send('Nie znaleziono obiektu');
+        }
+
+        res.json(rows[0]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Błąd serwera');
+    }
+});
+
 
 // Uruchomienie serwera
 const PORT = process.env.PORT || 3000;

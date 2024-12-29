@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="reservation-body">
+    <nav class="navbar">
+        <div class="nav-left">
+            <h1><a class="nav-link" href="index.html">SzybkieSpanko.pl</a></h1>
+        </div>
+        <div class="nav-right">
+            <a class="nav-link" href="#">
+                <h3>Kontakt</h3>
+            </a>
+            <a class="nav-link" href="#">
+                <h3>Polityka prywatności</h3>
+            </a>
+            <button class="nav-button">Zaloguj się</button>
+            <button class="nav-button">Zarejestruj się</button>
+        </div>
+    </nav>
+    <div class="main-container">
+        <h2>Podsumowanie rezerwacji</h2>
+        <div class="reservation-summary-container" id="reservation-summary-container"></div>
+        <h2>Wprowadź dane</h2>
+        <div class="reservation-form-container">
+            <form id="reservation-form">
+                <label for="firstName">Imię *</label>
+                <input type="text" id="firstName" name="firstName" required>
+
+                <label for="lastName">Nazwisko *</label>
+                <input type="text" id="lastName" name="lastName" required> 
+
+                <label for="email">Adres e-mail *</label>
+                <input type="email" id="email" name="email" placeholder="Na ten adres zostanie wysłane potwierdzenie" required>
+
+                <label for="country">Kraj/region *</label>
+                <select id="country" name="country" required>
+                    <option value="Polska">Polska</option>
+                    <option value="Niemcy">Niemcy</option>
+                    <option value="Czechy">Czechy</option>
+                    <option value="Słowacja">Słowacja</option>
+                </select>
+
+                <label for="miasto">Miasto *</label>
+                <input type="text" id="miasto" name="miasto" required>
+
+                <label for="phone">Numer telefonu *</label>
+                <div style="display: flex; gap: 8px;">
+                    <select id="phone-code" name="phone-code" style="flex: 1;" required>
+                        <option value="PL +48">PL +48</option>
+                        <option value="DE +49">DE +49</option>
+                        <option value="CZ +420">CZ +420</option>
+                        <option value="SK +421">SK +421</option>
+                    </select>
+                    <input type="tel" id="phone" name="phone" placeholder="Wymagany w celu weryfikacji rezerwacji" style="flex: 3;" required>
+                </div>
+
+                <button type="submit">Zarezerwuj</button>
+            </form>
+        </div>
+    </div>
+    <script src="reservation_dynamic.js"></script>
+</body>
+</html>

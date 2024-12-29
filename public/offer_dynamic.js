@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
     const offerId = urlParams.get("id");
+    const dates = urlParams.get("dates");
+    const adults = urlParams.get("adults") || 1;
+    const children = urlParams.get("children") || 0;
 
     if (!offerId) {
         console.error("Brak identyfikatora oferty w URL!");
@@ -24,13 +27,13 @@ document.addEventListener("DOMContentLoaded", function () {
     function renderOfferDetails(data) {
 
         // Jeśli descriptionLong nie istnieje, przypisz pusty string
-    const descriptionLong = data.descriptionLong || "";
+        const descriptionLong = data.descriptionLong || "";
 
-    // Podział opisu na paragrafy
-    const descriptionParagraphs = descriptionLong
-        .split("\n") // Dzieli tekst na paragrafy na podstawie nowej linii
-        .map(paragraph => `<p>${paragraph.trim()}</p>`) // Tworzy elementy <p>
-        .join(""); // Łączy wszystko w jeden ciąg HTML
+        // Podział opisu na paragrafy
+        const descriptionParagraphs = descriptionLong
+            .split("\n") // Dzieli tekst na paragrafy na podstawie nowej linii
+            .map(paragraph => `<p>${paragraph.trim()}</p>`) // Tworzy elementy <p>
+            .join(""); // Łączy wszystko w jeden ciąg HTML
 
         // Opis oceny na podstawie ratingu
         const ratingDescription = getRatingDescription(data.rating);
@@ -42,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <h2>${data.object_name}</h2>
                 </div>
                 <div class="reservation-button-container">
-                    <button class="availability-button" id="reservationButton">Zarezerwuj teraz</button>
+                    <button class="availability-button" id="reservationButton" data-object-id="${data.id}">Zarezerwuj teraz</button>
                 </div>
             </div>
             <div class="offer-address-container">
@@ -91,6 +94,34 @@ document.addEventListener("DOMContentLoaded", function () {
             imgElement.style.objectFit = "cover";
 
             gridChildren[index].appendChild(imgElement);
+        });
+
+        // Dodaj obsługę przycisku rezerwacji
+        setupReservationButton();
+    }
+
+    // Funkcja do obsługi kliknięcia w przycisk rezerwacji
+    function setupReservationButton() {
+        const reservationButton = document.getElementById("reservationButton");
+        if (!reservationButton) return;
+
+        reservationButton.addEventListener("click", () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const objectId = urlParams.get("id");
+            const dates = urlParams.get("dates");
+            const adults = urlParams.get("adults") || 1;
+            const children = urlParams.get("children") || 0;
+
+            if (!objectId || !dates) {
+                alert("Proszę uzupełnić wymagane dane przed kontynuowaniem.");
+                return;
+            }
+
+            // Tworzenie URL z parametrami
+            const url = `/reservation.html?id=${objectId}&dates=${dates}&adults=${adults}&children=${children}`;
+
+            // Przekierowanie na stronę rezerwacji
+            window.location.href = url;
         });
     }
 

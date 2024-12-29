@@ -57,9 +57,17 @@ nav h1, nav h3 {
     align-items: center;
 }
 
+
 .nav-button {
-    border-radius: 10px;
+    border-radius: 5px;
     height: 35px;
+    background-color: white;
+    color:#0085CA;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
 }
 
 /* end of navbar */
@@ -526,6 +534,7 @@ nav h1, nav h3 {
     background-color: white;
     width: 16%;
     height: 8vh;
+    color: black;
 }
 
 .navigation-container button:hover {
@@ -648,4 +657,80 @@ nav h1, nav h3 {
 .long-description-container p {
     margin-bottom: 15px; /* Odstęp między akapitami */
     font-size: 14px;
+}
+
+/* Style dla strony z formularzem rezerwacji */
+
+.reservation-summary-container {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+}
+
+.reservation-summary {
+    display: flex;
+    flex-direction: column;
+}
+
+.reservation-body .bold, .reservation-body p {
+    font-size: 20px;
+}
+
+
+.reservation-form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.reservation-form-container form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.reservation-form-container label {
+    font-weight: bold;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.reservation-form-container input,
+.reservation-form-container select,
+.reservation-form-container button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.reservation-form-container input:focus,
+.reservation-form-container select:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.reservation-form-container button {
+    grid-column: span 2;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.reservation-form-container button:hover {
+    background-color: #0056b3;
+}
+
+/* Koniec stylów dla formularza */
+
+/* Style dla strony success.html */
+
+.success-body a {
+    text-decoration: none;
 }
