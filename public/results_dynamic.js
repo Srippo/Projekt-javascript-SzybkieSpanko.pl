@@ -88,12 +88,22 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
     // Delegacja zdarzeń
+
     document.getElementById("listing-container").addEventListener("click", function (event) {
         if (event.target.classList.contains("availability-button")) {
             const offerId = event.target.getAttribute("data-id");
-            window.location.href = `/offer.html?id=${offerId}`;
+    
+            // Dodanie wybranych parametrów do URL
+            const dates = urlParams.get("dates"); // Pobranie dat z URL
+            const adults = urlParams.get("adults") || 1; // Domyślnie 1 dorosły
+            const children = urlParams.get("children") || 0; // Domyślnie 0 dzieci
+    
+            // Generowanie URL z parametrami
+            const url = `/offer.html?id=${offerId}&dates=${dates}&adults=${adults}&children=${children}`;
+            window.location.href = url;
         }
     });
+    
 
     function getRatingDescription(rating) {
         if (rating >= 9) return "Fantastyczny";
