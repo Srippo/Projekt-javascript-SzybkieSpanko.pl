@@ -33,12 +33,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // Oblicz liczbę nocy i cenę
                 const { nights, totalPrice } = startDate && endDate
-                    ? calculatePrice(result.price, startDate, endDate) // Zmieniono na `result.price`
+                    ? calculatePrice(result.price, startDate, endDate)
                     : { nights: 0, totalPrice: 0 };
 
                 // Zbuduj poprawne teksty dla dorosłych i dzieci
                 const adultsText = getPluralForm(adults, "dorosły", "dorosłych", "dorosłych");
-                const childrenText = children > 0 ? `, ${getPluralForm(children, "dziecko", "dzieci", "dzieci")}` : "";
+                const childrenText = children > 0
+                    ? `, ${getPluralForm(children, "dziecko", "dzieci", "dzieci")}`
+                    : "";
 
                 listing.innerHTML = `
                     <div class="listing-img-container">
@@ -49,19 +51,22 @@ document.addEventListener("DOMContentLoaded", function () {
                             <div class="data-container">
                                 <h4>${result.object_name}</h4>
                                 <div class="location-details-container">
-                                    <p>${result.address},&nbsp;&nbsp;&nbsp;Pokaż na mapie,&nbsp;&nbsp;&nbsp;${result.distance} km od centrum</p>
+                                    <p>
+                                        ${result.address},&nbsp;&nbsp;&nbsp;
+                                        <a href="/map.html?lat=${result.coords_lat}&lon=${result.coords_lon}" class="show-map-link">Pokaż na mapie</a>,&nbsp;&nbsp;&nbsp;
+                                        ${result.distance} km od centrum
+                                    </p>
                                 </div>
                                 <div class="distinct-attributes-container">
-                                    <p class="popup">${result.attribute1}</p>
-                                    <p class="popup">${result.attribute2}</p>
+                                    <p class="popup">
+                                        ${result.attribute1}
+                                        <span class="tooltip-text">${result.attribute1_description}</span>
+                                    </p>
+                                    <p class="popup">
+                                        ${result.attribute2}
+                                        <span class="tooltip-text">${result.attribute2_description}</span>
+                                    </p>
                                 </div>
-                            </div>
-                            <div class="rating-container">
-                                <div class="review-count-container">
-                                    <span class="rating-description">${ratingDescription}</span>
-                                    <span>${result.reviews_count} opinii</span>
-                                </div>
-                                <span class="rating">${result.rating}</span>
                             </div>
                         </div>
                         <div class="listing-details-bottom">
@@ -88,22 +93,20 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
     // Delegacja zdarzeń
-
     document.getElementById("listing-container").addEventListener("click", function (event) {
         if (event.target.classList.contains("availability-button")) {
             const offerId = event.target.getAttribute("data-id");
-    
+
             // Dodanie wybranych parametrów do URL
-            const dates = urlParams.get("dates"); // Pobranie dat z URL
-            const adults = urlParams.get("adults") || 1; // Domyślnie 1 dorosły
-            const children = urlParams.get("children") || 0; // Domyślnie 0 dzieci
-    
+            const dates = urlParams.get("dates");
+            const adults = urlParams.get("adults") || 1;
+            const children = urlParams.get("children") || 0;
+
             // Generowanie URL z parametrami
             const url = `/offer.html?id=${offerId}&dates=${dates}&adults=${adults}&children=${children}`;
             window.location.href = url;
         }
     });
-    
 
     function getRatingDescription(rating) {
         if (rating >= 9) return "Fantastyczny";
@@ -114,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return "Niska ocena";
     }
 
-    function calculatePrice(price, startDate, endDate) { // Zmieniono `pricePerNight` na `price`
+    function calculatePrice(price, startDate, endDate) {
         const start = new Date(startDate);
         const end = new Date(endDate);
 

@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
             renderOfferDetails(data);
             initializeMap(data.coords_lat, data.coords_lon);
             renderFacilities(data.facilities); // Dodaj udogodnienia
+            setupMapLink(data.coords_lat, data.coords_lon); // Obsługa "Pokaż na mapie"
         })
         .catch(error => {
             console.error("Błąd podczas ładowania szczegółów oferty:", error);
@@ -49,7 +50,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
             </div>
             <div class="offer-address-container">
-                <p><i class="fa-solid fa-location-pin"></i>${data.address_line},&nbsp;&nbsp;${data.address},&nbsp;&nbsp;${data.postal_code},&nbsp;&nbsp;${data.country},&nbsp;&nbsp;<a>Pokaż mapę</a></p>
+                <p>
+                    <i class="fa-solid fa-location-pin show-map-link" data-lat="${data.coords_lat}" data-lon="${data.coords_lon}"></i>
+                    ${data.address_line},&nbsp;&nbsp;${data.address},&nbsp;&nbsp;${data.postal_code},&nbsp;&nbsp;${data.country},&nbsp;&nbsp;
+                    <a href="#" class="show-map-link" data-lat="${data.coords_lat}" data-lon="${data.coords_lon}">Pokaż mapę</a>
+                </p>
             </div>
             <div class="middle-container">
                 <div class="parent">
@@ -122,6 +127,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Przekierowanie na stronę rezerwacji
             window.location.href = url;
+        });
+    }
+
+    // Funkcja do obsługi linku "Pokaż na mapie"
+    function setupMapLink(lat, lon) {
+        document.addEventListener("click", function (event) {
+            if (event.target.classList.contains("show-map-link")) {
+                event.preventDefault();
+                window.location.href = `/map.html?lat=${lat}&lon=${lon}`;
+            }
         });
     }
 
