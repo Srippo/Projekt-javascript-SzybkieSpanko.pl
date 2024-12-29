@@ -328,6 +328,7 @@ nav h1, nav h3 {
     padding: 15px;
     border: 1px solid lightgray;
     border-radius: 5px;
+    margin-bottom: 20px;
 }
 
 .listing-details-container {
@@ -379,6 +380,10 @@ nav h1, nav h3 {
     display: flex;
     width: 250px;
     justify-content: flex-end;
+}
+
+.offer-page i {
+    cursor: pointer;
 }
 
 /* Koniec stylów ratingu dla strony offer_dynamic */
