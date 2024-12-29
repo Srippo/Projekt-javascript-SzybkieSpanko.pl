@@ -60,10 +60,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Inicjalizacja Flatpickr dla zakresu dat
+
     flatpickr("#dateRange", {
         mode: "range",
         dateFormat: "Y-m-d",
         minDate: "today",
-        locale: "pl"
-    });
+        locale: "pl",
+        onClose: function(selectedDates, dateStr, instance) {
+            if (selectedDates.length === 2) {
+                const startDate = selectedDates[0];
+                const endDate = selectedDates[1];
+    
+                // Sprawdź, czy daty są takie same
+                if (startDate.toDateString() === endDate.toDateString()) {
+                    alert("Data przyjazdu i wyjazdu nie mogą być takie same.");
+                    instance.clear(); // Wyczyść wybór dat
+                }
+            }
+        }
+    });    
 });
