@@ -25,31 +25,26 @@ app.get('/results', async (req, res) => {
     const { city } = req.query;
 
     if (!city) {
-        return res.status(400).send('Brak parametru city.');
+        return res.status(400).send('Miasto nie zostało podane');
     }
 
     try {
         const connection = mysql.createConnection(dbConfig);
-        const query = `
-            SELECT 
-                Id, object_name, imageUrl, latitude, longitude, address, 
-                price, distance, rating, reviews_count 
-            FROM Obiekty 
-            WHERE city = ?
-        `;
-        const [rows] = await connection.promise().query(query, [city]);
+        const [rows] = await connection.promise().query('SELECT * FROM Obiekty WHERE city = ?', [city]);
+
+        // Logowanie wyników zapytania
+        console.log("Wyniki z bazy danych:", rows);
+
         connection.end();
 
-        if (rows.length === 0) {
-            return res.status(404).send('Nie znaleziono wyników.');
-        }
-
+        // Zwróć dane jako JSON
         res.json({ results: rows });
     } catch (err) {
-        console.error(err);
-        res.status(500).send('Błąd serwera.');
+        console.error("Błąd połączenia z bazą danych:", err);
+        res.status(500).send('Błąd połączenia z bazą danych');
     }
 });
+
 
 app.get('/city-coordinates', async (req, res) => {
     const { city } = req.query;
@@ -141,6 +136,8 @@ app.get('/reservation-details', async (req, res) => {
         res.status(500).send('Błąd połączenia z bazą danych.');
     }
 });
+
+
 
 app.post('/rezerwacja', express.json(), async (req, res) => {
     const {
