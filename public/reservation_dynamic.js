@@ -57,7 +57,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     data_zameldowania,
                     data_wymeldowania,
                     liczba_doroslych: adults,
-                    liczba_dzieci: children
+                    liczba_dzieci: children,
+                    object_id: offerId // Dodanie identyfikatora obiektu
                 })
             });
 

@@ -143,20 +143,24 @@ app.post('/rezerwacja', express.json(), async (req, res) => {
     const {
         imie, nazwisko, email, telefon,
         miasto, data_zameldowania, data_wymeldowania,
-        liczba_doroslych, liczba_dzieci
+        liczba_doroslych, liczba_dzieci, object_id
     } = req.body;
+
+    if (!object_id) {
+        return res.status(400).send('Brakuje identyfikatora obiektu.');
+    }
 
     try {
         const connection = mysql.createConnection(dbConfig);
         const query = `
             INSERT INTO Rezerwacje
-            (imie, nazwisko, email, telefon, miasto, data_zameldowania, data_wymeldowania, liczba_doroslych, liczba_dzieci)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            (imie, nazwisko, email, telefon, miasto, data_zameldowania, data_wymeldowania, liczba_doroslych, liczba_dzieci, object_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
         await connection.promise().query(query, [
             imie, nazwisko, email, telefon,
             miasto, data_zameldowania, data_wymeldowania,
-            liczba_doroslych, liczba_dzieci
+            liczba_doroslych, liczba_dzieci, object_id
         ]);
         connection.end();
 
@@ -166,6 +170,7 @@ app.post('/rezerwacja', express.json(), async (req, res) => {
         res.status(500).send('Błąd serwera');
     }
 });
+
 
 app.get('/obiekt/:id', async (req, res) => {
     const { id } = req.params;
