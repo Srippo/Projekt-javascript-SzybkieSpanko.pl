@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Pobierz parametry z URL
     const urlParams = new URLSearchParams(window.location.search);
     const city = urlParams.get("city");
     const dateRange = urlParams.get("dates")?.split(" to ");
@@ -18,19 +17,6 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("Odpowiedź serwera:", response);
             return response.json();
         })
-        .then(data => {
-            console.log("Dane z serwera:", data);
-        })
-        .catch(error => {
-            console.error("Błąd podczas ładowania danych:", error);
-        });
-
-    // Wyświetl nazwę miasta na stronie
-    document.getElementById("city-name").textContent = city;
-
-    // Pobierz dane z serwera
-    fetch(`/results?city=${city}`)
-        .then(response => response.json())
         .then(data => {
             const results = data.results;
             const listingContainer = document.getElementById("listing-container");
@@ -88,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <p>${nights} nocy, ${adultsText}${childrenText}</p>
                                 <h3>${totalPrice.toLocaleString()} zł</h3>
                                 <p>Zawiera opłaty i podatki</p>
-                                <button class="availability-button">Zobacz dostępność</button>
+                                <button class="availability-button" data-id="${result.Id}">Zobacz dostępność</button>
                             </div>
                         </div>
                     </div>
@@ -100,6 +86,14 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => {
             console.error("Błąd podczas ładowania danych:", error);
         });
+
+    // Delegacja zdarzeń
+    document.getElementById("listing-container").addEventListener("click", function (event) {
+        if (event.target.classList.contains("availability-button")) {
+            const offerId = event.target.getAttribute("data-id");
+            window.location.href = `/offer.html?id=${offerId}`;
+        }
+    });
 
     function getRatingDescription(rating) {
         if (rating >= 9) return "Fantastyczny";

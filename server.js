@@ -72,6 +72,47 @@ app.get('/city-coordinates', async (req, res) => {
     }
 });
 
+app.get('/offer-details', async (req, res) => {
+    const { id } = req.query;
+
+    try {
+        const connection = mysql.createConnection(dbConfig);
+
+        // Pobierz szczegóły oferty
+        const [offer] = await connection.promise().query('SELECT * FROM Obiekty WHERE Id = ?', [id]);
+
+        // Pobierz udogodnienia
+        const [facilities] = await connection.promise().query(`
+            SELECT Facilities.name, Facilities.icon 
+            FROM Facilities 
+            JOIN Obiekty_Facilities ON Facilities.id = Obiekty_Facilities.facility_id 
+            WHERE Obiekty_Facilities.object_id = ?
+        `, [id]);
+
+        // Pobierz zdjęcia
+        const [photos] = await connection.promise().query(`
+            SELECT image_url 
+            FROM Obiekty_Images 
+            WHERE object_id = ?
+        `, [id]);
+
+        connection.end();
+
+        // Sprawdź, czy oferta istnieje
+        if (offer.length === 0) {
+            res.status(404).send('Nie znaleziono oferty');
+        } else {
+            res.json({
+                ...offer[0],
+                facilities,
+                photos: photos.map(photo => photo.image_url), // Mapuj zdjęcia na tablicę URL
+            });
+        }
+    } catch (error) {
+        console.error("Błąd podczas pobierania danych:", error);
+        res.status(500).send('Błąd serwera');
+    }
+});
 
 
 // Uruchomienie serwera
