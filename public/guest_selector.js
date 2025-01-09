@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Logika dla wyboru liczby gości
+
     const guestButton = document.getElementById("guestButton");
     const guestSelectorContainer = document.getElementById("guestSelectorContainer");
     const adultsCountElem = document.getElementById("adults");
@@ -72,7 +72,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     readyButton.addEventListener("click", hideGuestSelector);
 
-    // Ukrywanie dropdown przy kliknięciu poza
     window.addEventListener("click", (event) => {
         if (!event.target.closest(".guest-selector")) {
             hideGuestSelector();

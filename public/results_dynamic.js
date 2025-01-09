@@ -21,10 +21,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const results = data.results;
             const listingContainer = document.getElementById("listing-container");
 
-            // Wyświetl liczbę znalezionych obiektów
             document.getElementById("property-count").textContent = results.length;
 
-            // Iteracja po wynikach i tworzenie elementów HTML
             results.forEach(result => {
                 const listing = document.createElement("div");
                 listing.classList.add("listing");
@@ -36,7 +34,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     ? calculatePrice(result.price, startDate, endDate)
                     : { nights: 0, totalPrice: 0 };
 
-                // Zbuduj poprawne teksty dla dorosłych i dzieci
                 const adultsText = getPluralForm(adults, "dorosły", "dorosłych", "dorosłych");
                 const childrenText = children > 0
                     ? `, ${getPluralForm(children, "dziecko", "dzieci", "dzieci")}`
@@ -92,17 +89,14 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Błąd podczas ładowania danych:", error);
         });
 
-    // Delegacja zdarzeń
     document.getElementById("listing-container").addEventListener("click", function (event) {
         if (event.target.classList.contains("availability-button")) {
             const offerId = event.target.getAttribute("data-id");
 
-            // Dodanie wybranych parametrów do URL
             const dates = urlParams.get("dates");
             const adults = urlParams.get("adults") || 1;
             const children = urlParams.get("children") || 0;
 
-            // Generowanie URL z parametrami
             const url = `/offer.html?id=${offerId}&dates=${dates}&adults=${adults}&children=${children}`;
             window.location.href = url;
         }
@@ -121,10 +115,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const start = new Date(startDate);
         const end = new Date(endDate);
 
-        // Oblicz liczbę nocy
         const nights = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
 
-        // Oblicz łączną cenę
         const totalPrice = nights * price;
 
         return { nights, totalPrice };

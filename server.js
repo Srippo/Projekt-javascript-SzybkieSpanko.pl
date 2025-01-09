@@ -5,10 +5,8 @@ require('dotenv').config();
 
 const app = express();
 
-// Ustawienie folderu dla plików statycznych (np. CSS, JS, obrazy)
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Konfiguracja połączenia z bazą danych MySQL
 const dbConfig = {
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -16,7 +14,6 @@ const dbConfig = {
   database: process.env.DB_NAME
 };
 
-// Endpoint wysyłający index.html
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
@@ -32,12 +29,10 @@ app.get('/results', async (req, res) => {
         const connection = mysql.createConnection(dbConfig);
         const [rows] = await connection.promise().query('SELECT * FROM Obiekty WHERE city = ?', [city]);
 
-        // Logowanie wyników zapytania
         console.log("Wyniki z bazy danych:", rows);
 
         connection.end();
 
-        // Zwróć dane jako JSON
         res.json({ results: rows });
     } catch (err) {
         console.error("Błąd połączenia z bazą danych:", err);
@@ -78,10 +73,8 @@ app.get('/offer-details', async (req, res) => {
     try {
         const connection = mysql.createConnection(dbConfig);
 
-        // Pobierz szczegóły oferty
         const [offer] = await connection.promise().query('SELECT * FROM Obiekty WHERE Id = ?', [id]);
 
-        // Pobierz udogodnienia
         const [facilities] = await connection.promise().query(`
             SELECT Facilities.name, Facilities.icon 
             FROM Facilities 
@@ -89,7 +82,6 @@ app.get('/offer-details', async (req, res) => {
             WHERE Obiekty_Facilities.object_id = ?
         `, [id]);
 
-        // Pobierz zdjęcia
         const [photos] = await connection.promise().query(`
             SELECT image_url 
             FROM Obiekty_Images 
@@ -98,14 +90,13 @@ app.get('/offer-details', async (req, res) => {
 
         connection.end();
 
-        // Sprawdź, czy oferta istnieje
         if (offer.length === 0) {
             res.status(404).send('Nie znaleziono oferty');
         } else {
             res.json({
                 ...offer[0],
                 facilities,
-                photos: photos.map(photo => photo.image_url), // Mapuj zdjęcia na tablicę URL
+                photos: photos.map(photo => photo.image_url),
             });
         }
     } catch (error) {
@@ -192,7 +183,6 @@ app.get('/obiekt/:id', async (req, res) => {
 });
 
 
-// Uruchomienie serwera
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Serwer działa na porcie ${PORT}`);

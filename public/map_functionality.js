@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         attribution: '© OpenStreetMap contributors'
                     }).addTo(map);
 
-                    // Dodaj marker dla wybranego miasta
                     L.marker([data.latitude, data.longitude]).addTo(map)
                         .bindPopup(`${city}`)
                         .openPopup();
