@@ -211,11 +211,11 @@ nav h1, nav h3 {
     left: 0;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     background-color: white;
-    z-index: 10; /* Wyższa warstwa */
+    z-index: 10;
     min-width: 27vw;
-    max-height: 200px; /* Ograniczenie wysokości */
-    overflow-y: auto; /* Dodanie przewijania */
-    border: 1px solid #ccc; /* Obramowanie */
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
     border-radius: 5px;
     padding: 5px;
     display: none;
@@ -651,16 +651,16 @@ nav h1, nav h3 {
 .long-description-container {
     margin-top: 20px;
     padding: 15px;
-    line-height: 1.5; /* Lepsza czytelność przez zwiększenie odstępów między liniami */
-    font-size: 16px; /* Ustawienie rozmiaru czcionki */
-    color: #333; /* Ciemnoszary kolor dla tekstu */
-    background-color: #f9f9f9; /* Jasne tło */
-    border: 1px solid #ddd; /* Ramka wokół kontenera */
-    border-radius: 5px; /* Zaokrąglone rogi */
+    line-height: 1.5;
+    font-size: 16px;
+    color: #333;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
 
 .long-description-container p {
-    margin-bottom: 15px; /* Odstęp między akapitami */
+    margin-bottom: 15px;
     font-size: 14px;
 }
 
@@ -670,6 +670,9 @@ nav h1, nav h3 {
     display: flex;
     flex-direction: row;
     gap: 50px;
+    border: 1px solid #0085CA;
+    border-radius: 5px;
+    padding: 15px;
 }
 
 .reservation-summary {
