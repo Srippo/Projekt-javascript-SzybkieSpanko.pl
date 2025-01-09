@@ -17,8 +17,8 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("Dane oferty:", data);
             renderOfferDetails(data);
             initializeMap(data.coords_lat, data.coords_lon);
-            renderFacilities(data.facilities); // Dodaj udogodnienia
-            setupMapLink(data.coords_lat, data.coords_lon); // Obsługa "Pokaż na mapie"
+            renderFacilities(data.facilities);
+            setupMapLink(data.coords_lat, data.coords_lon);
         })
         .catch(error => {
             console.error("Błąd podczas ładowania szczegółów oferty:", error);
@@ -27,19 +27,15 @@ document.addEventListener("DOMContentLoaded", function () {
     // Funkcja do renderowania danych oferty
     function renderOfferDetails(data) {
 
-        // Jeśli descriptionLong nie istnieje, przypisz pusty string
         const descriptionLong = data.descriptionLong || "";
 
-        // Podział opisu na paragrafy
         const descriptionParagraphs = descriptionLong
-            .split("\n") // Dzieli tekst na paragrafy na podstawie nowej linii
-            .map(paragraph => `<p>${paragraph.trim()}</p>`) // Tworzy elementy <p>
-            .join(""); // Łączy wszystko w jeden ciąg HTML
+            .split("\n")
+            .map(paragraph => `<p>${paragraph.trim()}</p>`)
+            .join("");
 
-        // Opis oceny na podstawie ratingu
         const ratingDescription = getRatingDescription(data.rating);
 
-        // Renderowanie podstawowej struktury
         document.querySelector(".dynamic-listing").innerHTML = `
             <div class="offer-top-container">
                 <div class="offer-name-container">
@@ -86,7 +82,6 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
         `;
 
-        // Dodawanie zdjęć do gridu
         const photos = data.photos || [];
         const gridChildren = document.querySelectorAll(".parent > div");
 
@@ -101,11 +96,9 @@ document.addEventListener("DOMContentLoaded", function () {
             gridChildren[index].appendChild(imgElement);
         });
 
-        // Dodaj obsługę przycisku rezerwacji
         setupReservationButton();
     }
 
-    // Funkcja do obsługi kliknięcia w przycisk rezerwacji
     function setupReservationButton() {
         const reservationButton = document.getElementById("reservationButton");
         if (!reservationButton) return;
@@ -122,15 +115,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            // Tworzenie URL z parametrami
             const url = `/reservation.html?id=${objectId}&dates=${dates}&adults=${adults}&children=${children}`;
 
-            // Przekierowanie na stronę rezerwacji
             window.location.href = url;
         });
     }
 
-    // Funkcja do obsługi linku "Pokaż na mapie"
     function setupMapLink(lat, lon) {
         document.addEventListener("click", function (event) {
             if (event.target.classList.contains("show-map-link")) {
@@ -140,7 +130,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Funkcja do renderowania udogodnień
     function renderFacilities(facilities) {
         const facilitiesContainer = document.querySelector(".facilities-container");
 
@@ -155,24 +144,20 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Funkcja do inicjalizacji mapy Leaflet
     function initializeMap(lat, lon) {
         const map = L.map("map").setView([lat, lon], 13);
 
-        // Dodanie warstwy mapy
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
             maxZoom: 19,
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        // Dodanie markera
         L.marker([lat, lon])
             .addTo(map)
             .bindPopup("Lokalizacja: " + lat + ", " + lon)
             .openPopup();
     }
 
-    // Funkcja do generowania opisu oceny
     function getRatingDescription(rating) {
         if (rating >= 9) return "Fantastyczny";
         if (rating >= 8) return "Bardzo dobry";

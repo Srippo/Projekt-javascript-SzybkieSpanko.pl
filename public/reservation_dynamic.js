@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    // Pobierz dane szczegółowe oferty i wyświetl podsumowanie
     fetch(`/reservation-details?id=${offerId}`)
         .then(response => response.json())
         .then(data => {
@@ -31,40 +30,36 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("Nie udało się pobrać danych oferty.");
         });
 
-    // Obsługa formularza
     const form = document.getElementById("reservation-form");
     form.addEventListener("submit", async function (event) {
         event.preventDefault();
 
-        // Pobranie danych z formularza
         const formData = new FormData(form);
-        const userData = Object.fromEntries(formData.entries()); // Zamiana FormData na obiekt
+        const userData = Object.fromEntries(formData.entries());
 
-        // Podział dat na zameldowanie i wymeldowanie
         const [data_zameldowania, data_wymeldowania] = dates.split(" to ");
 
         try {
-            // Wysłanie danych do endpointa
             const response = await fetch('/rezerwacja', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    imie: userData.firstName, // Pole z formularza
-                    nazwisko: userData.lastName, // Pole z formularza
-                    email: userData.email, // Pole z formularza
-                    telefon: userData.phone, // Pole z formularza
-                    miasto: userData.miasto, // Możesz dodać pole w formularzu, jeśli jest wymagane
+                    imie: userData.firstName,
+                    nazwisko: userData.lastName,
+                    email: userData.email,
+                    telefon: userData.phone,
+                    miasto: userData.miasto,
                     data_zameldowania,
                     data_wymeldowania,
                     liczba_doroslych: adults,
                     liczba_dzieci: children,
-                    object_id: offerId // Dodanie identyfikatora obiektu
+                    object_id: offerId
                 })
             });
 
             if (response.ok) {
                 alert("Rezerwacja zakończona sukcesem!");
-                window.location.href = "/success.html"; // Przekierowanie na stronę sukcesu
+                window.location.href = "/success.html";
             } else {
                 const errorData = await response.text();
                 alert(`Błąd: ${errorData}`);
