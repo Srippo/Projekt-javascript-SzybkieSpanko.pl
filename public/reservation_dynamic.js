@@ -15,12 +15,16 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(data => {
             const objectName = data.object_name || "Nieznany obiekt";
             const imageUrl = data.imageUrl || "placeholder.jpg";
-
+            const pricePerNight = data.price || 0;
+            const [startDate, endDate] = dates.split(" to ");
+            const nights = (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24);
+            const totalPrice = pricePerNight * nights;
             document.getElementById("reservation-summary-container").innerHTML = `
                 <div class="reservation-summary">
                     <p><span class="bold">Obiekt:</span> ${objectName}</p>
                     <p><span class="bold">W terminie:</span> ${dates}</p>
                     <p><span class="bold">Goście:</span> ${adults} dorosłych, ${children} dzieci</p>
+                    <p><span class="bold">Cena za pobyt:</span> ${totalPrice} PLN (${pricePerNight} PLN za noc)</p>
                 </div>
                 <img src="${imageUrl}" alt="Zdjęcie obiektu" style="width: 100%; max-width: 400px; margin-bottom: 20px;" />
             `;
