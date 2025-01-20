@@ -335,6 +335,11 @@ nav h1, nav h3 {
     display: flex;
     flex-direction: column;
     padding-left: 15px;
+    width: 100%;
+}
+
+.listing-details-bottom {
+    width: 100%;
 }
 
 .data-container {
@@ -522,6 +527,11 @@ nav h1, nav h3 {
     color: white;
     height: 5vh;
     padding: 10px;
+}
+
+.reserved {
+    opacity: 0.5;
+    pointer-events: none;
 }
 
 /* Style strony oferty */
@@ -737,8 +747,29 @@ nav h1, nav h3 {
 
 /* Koniec stylów dla formularza */
 
-/* Style dla strony success.html */
-
 .success-body a {
     text-decoration: none;
+}
+
+/* Media query */
+
+@media (min-width: 1440px) {
+    .map-container {
+        height: 12vw;
+    }
+    .listing-container-right {
+        width: 75%;
+    }
+}
+
+@media (min-width: 1640px) {
+    .listing-container-right {
+        width: 60%;
+    }
+    .middle-container {
+        height: 800px;
+    }
+    .parent {
+        height: 100%;
+    }
 }

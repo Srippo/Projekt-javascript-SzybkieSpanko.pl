@@ -10,6 +10,32 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
+    async function validateReservation(objectId, startDate, endDate) {
+        const reservations = await fetchReservations(objectId);
+        return !reservations.some(reservation => {
+            return (
+                new Date(reservation.startDate) <= new Date(endDate) &&
+                new Date(reservation.endDate) >= new Date(startDate)
+            );
+        });
+    }
+    
+    async function handleReservation(event) {
+        event.preventDefault();
+        const objectId = getSelectedObjectId();
+        const startDate = getStartDate();
+        const endDate = getEndDate();
+    
+        const isAvailable = await validateReservation(objectId, startDate, endDate);
+        if (!isAvailable) {
+            alert('Obiekt jest już zarezerwowany w tym terminie');
+            return;
+        }
+    
+        // Kontynuuj proces rezerwacji
+    }
+    
+
     fetch(`/reservation-details?id=${offerId}`)
         .then(response => response.json())
         .then(data => {

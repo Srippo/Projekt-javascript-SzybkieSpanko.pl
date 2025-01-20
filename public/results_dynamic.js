@@ -2,14 +2,45 @@ document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
     const city = urlParams.get("city");
     const dateRange = urlParams.get("dates")?.split(" to ");
-    const startDate = dateRange ? dateRange[0] : null;
-    const endDate = dateRange ? dateRange[1] : null;
+    const data_zameldowania = dateRange ? dateRange[0] : null;
+    const data_wymeldowania = dateRange ? dateRange[1] : null;
     const adults = parseInt(urlParams.get("adults")) || 1;
     const children = parseInt(urlParams.get("children")) || 0;
 
     if (!city) {
         console.error("Brak parametru city w URL!");
         return;
+    }
+
+    async function fetchReservations(objectId) {
+        const response = await fetch(`/api/reservations/${objectId}`);
+        if (!response.ok) {
+            console.error("Błąd podczas pobierania rezerwacji:", response.statusText);
+            return [];
+        }
+        return response.json();
+    }
+
+    async function updateUIWithReservations(objectId, data_zameldowania, data_wymeldowania) {
+        const reservations = await fetchReservations(objectId);
+        const isReserved = reservations.some(reservation => {
+            return (
+                new Date(reservation.data_zameldowania) <= new Date(data_wymeldowania) &&
+                new Date(reservation.data_wymeldowania) >= new Date(data_zameldowania)
+            );
+        });
+
+        if (isReserved) {
+            const objectElement = document.getElementById(`object-${objectId}`);
+            if (objectElement) {
+                objectElement.classList.add('reserved');
+                const availabilityButton = objectElement.querySelector('.availability-button');
+                if (availabilityButton) {
+                    availabilityButton.textContent = 'Zarezerwowane';
+                    availabilityButton.disabled = true;
+                }
+            }
+        }
     }
 
     fetch(`/results?city=${city}`)
@@ -23,15 +54,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
             document.getElementById("property-count").textContent = results.length;
 
-            results.forEach(result => {
+            results.forEach(async result => {
                 const listing = document.createElement("div");
                 listing.classList.add("listing");
+                listing.id = `object-${result.Id}`;
 
                 const ratingDescription = getRatingDescription(result.rating);
 
-                // Oblicz liczbę nocy i cenę
-                const { nights, totalPrice } = startDate && endDate
-                    ? calculatePrice(result.price, startDate, endDate)
+                const { nights, totalPrice } = data_zameldowania && data_wymeldowania
+                    ? calculatePrice(result.price, data_zameldowania, data_wymeldowania)
                     : { nights: 0, totalPrice: 0 };
 
                 const adultsText = getPluralForm(adults, "dorosły", "dorosłych", "dorosłych");
@@ -83,6 +114,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 `;
 
                 listingContainer.appendChild(listing);
+
+                await updateUIWithReservations(result.Id, data_zameldowania, data_wymeldowania);
             });
         })
         .catch(error => {
