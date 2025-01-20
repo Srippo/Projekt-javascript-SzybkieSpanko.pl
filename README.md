@@ -42,8 +42,8 @@ List the ready features here:
 3. Install dependencies (dependencies can be found in the dependencies.txt file) 
     - npm install
 4. Configure a database in MySQL
-    - Download the "Dump (structure)" file from this repository and import it into your database in MySQL. This step will provide your database with the necessary structure.
-    - Or download the "Dump (structure and data) file from this repository and import it into your database in MySQL if you wish to check the app out with my database.
+    - Download the "Dump1 (structure)" file from this repository and import it into your database in MySQL. This step will provide your database with the necessary structure.
+    - Or download the "Dump2 (structure and data) file from this repository and import it into your database in MySQL if you wish to check the app out with my database.
 5. Create an .env file and insert
     - DB_USER=yourusername
     - DB_PASSWORD=yourpassword
