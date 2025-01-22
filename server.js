@@ -187,3 +187,55 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Serwer działa na porcie ${PORT}`);
 });
+<<<<<<< HEAD
+=======
+
+app.get('/api/reservations/:objectId', async (req, res) => {
+    const { objectId } = req.params;
+
+    try {
+        const connection = mysql.createConnection(dbConfig);
+        const [reservations] = await connection.promise().query(`
+            SELECT data_zameldowania, data_wymeldowania 
+            FROM Rezerwacje 
+            WHERE object_id = ?`, [objectId]);
+
+        connection.end();
+
+        res.status(200).json(reservations);
+    } catch (err) {
+        console.error("Błąd połączenia z bazą danych:", err);
+        res.status(500).send('Błąd połączenia z bazą danych');
+    }
+});
+
+app.post('/api/reservations', express.json(), async (req, res) => {
+    const { object_id, data_zameldowania, data_wymeldowania } = req.body;
+
+    try {
+        const connection = mysql.createConnection(dbConfig);
+        const [existingReservations] = await connection.promise().query(`
+            SELECT * 
+            FROM Rezerwacje 
+            WHERE object_id = ? 
+              AND NOT (data_wymeldowania < ? OR data_zameldowania > ?)`, 
+            [object_id, data_zameldowania, data_wymeldowania]);
+
+        if (existingReservations.length > 0) {
+            connection.end();
+            return res.status(400).json({ message: 'Termin jest już zarezerwowany' });
+        }
+
+        await connection.promise().query(`
+            INSERT INTO Rezerwacje (object_id, data_zameldowania, data_wymeldowania) 
+            VALUES (?, ?, ?)`, [object_id, data_zameldowania, data_wymeldowania]);
+
+        connection.end();
+
+        res.status(201).send('Rezerwacja zapisana');
+    } catch (err) {
+        console.error("Błąd połączenia z bazą danych:", err);
+        res.status(500).send('Błąd połączenia z bazą danych');
+    }
+});
+>>>>>>> d56d80071315e05997802fa41ee3b0063f41f833
