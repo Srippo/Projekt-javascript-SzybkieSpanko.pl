@@ -10,8 +10,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-<<<<<<< HEAD
-=======
     async function validateReservation(objectId, startDate, endDate) {
         const reservations = await fetchReservations(objectId);
         return !reservations.some(reservation => {
@@ -38,7 +36,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
 
->>>>>>> d56d80071315e05997802fa41ee3b0063f41f833
     fetch(`/reservation-details?id=${offerId}`)
         .then(response => response.json())
         .then(data => {

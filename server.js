@@ -187,8 +187,6 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Serwer działa na porcie ${PORT}`);
 });
-<<<<<<< HEAD
-=======
 
 app.get('/api/reservations/:objectId', async (req, res) => {
     const { objectId } = req.params;
@@ -238,4 +236,3 @@ app.post('/api/reservations', express.json(), async (req, res) => {
         res.status(500).send('Błąd połączenia z bazą danych');
     }
 });
->>>>>>> d56d80071315e05997802fa41ee3b0063f41f833

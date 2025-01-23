@@ -335,14 +335,11 @@ nav h1, nav h3 {
     display: flex;
     flex-direction: column;
     padding-left: 15px;
-<<<<<<< HEAD
-=======
     width: 100%;
 }
 
 .listing-details-bottom {
     width: 100%;
->>>>>>> d56d80071315e05997802fa41ee3b0063f41f833
 }
 
 .data-container {
@@ -532,14 +529,11 @@ nav h1, nav h3 {
     padding: 10px;
 }
 
-<<<<<<< HEAD
-=======
 .reserved {
     opacity: 0.5;
     pointer-events: none;
 }
 
->>>>>>> d56d80071315e05997802fa41ee3b0063f41f833
 /* Style strony oferty */
 
 .navigation-container {
@@ -753,13 +747,6 @@ nav h1, nav h3 {
 
 /* Koniec stylów dla formularza */
 
-<<<<<<< HEAD
-/* Style dla strony success.html */
-
-.success-body a {
-    text-decoration: none;
-}
-=======
 .success-body a {
     text-decoration: none;
 }
@@ -786,4 +773,3 @@ nav h1, nav h3 {
         height: 100%;
     }
 }
->>>>>>> d56d80071315e05997802fa41ee3b0063f41f833
